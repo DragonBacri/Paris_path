@@ -11,11 +11,14 @@ public class Parcours {
     private GeoPoint location;
     private int duration ;
 
-    public Parcours(String name, String description, GeoPoint location, int duration) {
+    private List<Questions> questionsList;
+
+    public Parcours(String name, String description, GeoPoint location, int duration, List<Questions> questionsList) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.duration = duration;
+        this.questionsList = questionsList;
     }
 
     public String getName() {
@@ -28,6 +31,10 @@ public class Parcours {
 
     public GeoPoint getLocation() {
         return location;
+    }
+
+    public List<Questions> getQuestionsList() {
+        return questionsList;
     }
 
     public int getDuration() {

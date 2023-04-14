@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class File_extracter {
@@ -33,12 +35,15 @@ public class File_extracter {
 
 
     public Map extract_name() throws IOException {
-       String line = "";
+
+        String line = "";
         Map<String, String> map = new HashMap<String, String>();
 
         while (Bfr.ready()) {
            line = Bfr.readLine();
+
             map.put(line.substring(0,2), line.substring(5,line.length()));
+
         }
 
         return map;

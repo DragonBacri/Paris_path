@@ -56,9 +56,10 @@ public class FirstFragment extends Fragment {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        List<Questions> questionsList = extractQuestions(hmap);
 
         GeoPoint location = new GeoPoint(Double.parseDouble(hmap.get("G1")),Double.parseDouble(hmap.get("G2")));
-        parcours = new Parcours(hmap.get("No"), hmap.get("Ds"), location, Integer.parseInt(hmap.get("tp"))  );
+        parcours = new Parcours(hmap.get("No"), hmap.get("Ds"), location, Integer.parseInt(hmap.get("tp")) , questionsList );
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem(parcours.getName(), parcours.getDescription(), parcours.getLocation()));
@@ -70,13 +71,14 @@ public class FirstFragment extends Fragment {
         new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
             @Override
             public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                tv.setText("parcours Alesia");
+                tv.setText(parcours.getQuestionsList().get(0).getQuestion());
                 return true;
             }
 
             @Override
             public boolean onItemLongPress(final int index, final OverlayItem item) {
-                NavHostFragment.findNavController(FirstFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
+                //NavHostFragment.findNavController(FirstFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
+                tv.setText(parcours.getQuestionsList().get(0).getAnswer());
                 return false;
             }
         }, ctx);
@@ -107,6 +109,21 @@ public class FirstFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    public List<Questions> extractQuestions(Map<String, String> hmap){
+        List<Questions> questionsList = new ArrayList<>();
+        for (String key : hmap.keySet()) {
+            if (key.matches("Q.")){
+                String segments[] = hmap.get(key).split("ANS :");
+                Questions questions = new Questions(segments[0], segments[1]);
+                questionsList.add(questions);
+            }
+        }
+
+        return  questionsList;
+
     }
 
 }
