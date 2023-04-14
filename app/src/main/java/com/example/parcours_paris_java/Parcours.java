@@ -1,10 +1,13 @@
 package com.example.parcours_paris_java;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.List;
 
-public class Parcours {
+public class Parcours  {
 
     private String name;
     private String description;
@@ -20,6 +23,8 @@ public class Parcours {
         this.duration = duration;
         this.questionsList = questionsList;
     }
+
+
 
     public String getName() {
         return name;
