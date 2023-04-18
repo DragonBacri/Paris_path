@@ -5,9 +5,10 @@ import android.os.Parcelable;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Parcours  {
+public class Parcours implements Serializable {
 
     private String name;
     private String description;

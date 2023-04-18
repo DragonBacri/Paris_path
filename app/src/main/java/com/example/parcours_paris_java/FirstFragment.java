@@ -41,6 +41,7 @@ public class FirstFragment extends Fragment {
     Parcours parcours;
     private FragmentFirstBinding binding;
 
+    private FirstFragmentListener listener;
 
     @Override
     public View onCreateView(
@@ -60,6 +61,7 @@ public class FirstFragment extends Fragment {
 
         GeoPoint location = new GeoPoint(Double.parseDouble(hmap.get("G1")),Double.parseDouble(hmap.get("G2")));
         parcours = new Parcours(hmap.get("No"), hmap.get("Ds"), location, Integer.parseInt(hmap.get("tp")) , questionsList );
+
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem(parcours.getName(), parcours.getDescription(), parcours.getLocation()));
@@ -77,7 +79,8 @@ public class FirstFragment extends Fragment {
 
             @Override
             public boolean onItemLongPress(final int index, final OverlayItem item) {
-                //NavHostFragment.findNavController(FirstFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
+                MainActivity main = (MainActivity) getActivity();
+                main.changeFragment(parcours);
                 tv.setText(parcours.getQuestionsList().get(0).getAnswer());
                 return false;
             }
@@ -125,5 +128,33 @@ public class FirstFragment extends Fragment {
         return  questionsList;
 
     }
+
+    public interface FirstFragmentListener {
+        void onObjectSelected(Parcours object);
+    }
+
+    public void onObjectSelected(Parcours object) {
+        listener.onObjectSelected(object);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FirstFragmentListener) {
+            listener = (FirstFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement FragmentAListener");
+        }
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+
 
 }

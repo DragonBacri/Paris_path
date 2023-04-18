@@ -25,9 +25,11 @@ import java.util.zip.Inflater;
 
 public class SecondFragment extends Fragment {
 
-    private TextView tv1 ;
+
     String text2 = "";
 
+    TextView tv ;
+    Parcours parcours;
 
     private FragmentSecondBinding binding;
 
@@ -38,8 +40,10 @@ public class SecondFragment extends Fragment {
     ) {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
-        tv1 = binding.textviewSecond;
+        tv = binding.textViewId;
 
+        Bundle bundle = getArguments();
+        parcours = (Parcours) bundle.getSerializable("Parcours");
 
         return binding.getRoot();
 
@@ -62,7 +66,8 @@ public class SecondFragment extends Fragment {
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv1.setText(text2);
+                tv.setText(parcours.getName());
+
             }
         });
     }
