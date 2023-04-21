@@ -119,7 +119,7 @@ public class FirstFragment extends Fragment {
         List<Questions> questionsList = new ArrayList<>();
         for (String key : hmap.keySet()) {
             if (key.matches("Q.")){
-                String segments[] = hmap.get(key).split("ANS :");
+                String segments[] = hmap.get(key).split("ANS : ");
                 Questions questions = new Questions(segments[0], segments[1]);
                 questionsList.add(questions);
             }

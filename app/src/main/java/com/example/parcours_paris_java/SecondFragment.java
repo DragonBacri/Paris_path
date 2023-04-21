@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,19 +22,29 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.Inflater;
 
 public class SecondFragment extends Fragment {
 
+    EditText editText;
 
-    String text2 = "";
 
-    TextView tv ;
+
+    TextView tv_question ;
+
+    TextView tv_result;
     Parcours parcours;
+
+    public Button button;
 
     private FragmentSecondBinding binding;
 
+
+    private List<Questions> questionsList;
+
+    int n ;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -40,10 +52,16 @@ public class SecondFragment extends Fragment {
     ) {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
-        tv = binding.textViewId;
-
+        tv_question = binding.textViewId;
+        tv_result = binding.textViewId2;
+        editText = binding.editans;
+        button = binding.buttonSecond;
+        button.setText("Entrer");
         Bundle bundle = getArguments();
         parcours = (Parcours) bundle.getSerializable("Parcours");
+        questionsList = parcours.getQuestionsList();
+        n = 0;
+        tv_question.setText(questionsList.get(n).getQuestion());
 
         return binding.getRoot();
 
@@ -53,21 +71,33 @@ public class SecondFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Map<String, String> map = new HashMap<String, String>();
-        try {
-            File_extracter file_extracter = new File_extracter(requireActivity().getAssets(),"test.txt");
-            map = file_extracter.extract_name();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Log.d("e", map.get("No"));
 
 
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv.setText(parcours.getName());
+                if (button.getText().equals("Question suivante")) {
+                    newQuestion();
+                }
+                else {
+                    Log.d("ici","compara");
+                    if (editText.getText().toString().equals(questionsList.get(n).getAnswer())) {
+                        Log.d("ici","VRAI");
+                        tv_result.setText("BRAVOO tu as trouvé");
+                        button.setText("Question suivante");
+                        n = n + 1;
 
+                    }
+
+                    else {
+                        Log.d("ici","FAUX");
+                        Log.d("ici",editText.getText().toString());
+                        Log.d("ici",questionsList.get(n).getAnswer());
+
+                        tv_result.setText("FAUX essaie encore !");
+                    }
+                }
             }
         });
     }
@@ -76,6 +106,11 @@ public class SecondFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    public void newQuestion(){
+        tv_question.setText(questionsList.get(n).getQuestion());
+        tv_result.setText("");
+        button.setText("Entrer");
     }
 
 }
