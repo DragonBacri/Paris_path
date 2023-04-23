@@ -1,9 +1,0 @@
-
-<resources>
-
-    <string name="name">Parcours_Alesia</string>
-    <string name="description">Parcours pour débutant</string>
-    <GeoPoint name="location">new GeoPoint(48.827921,2.326825)</GeoPoint>
-    <integer name="second_fragment_label">45</integer>
-
-</resources>

@@ -39,6 +39,8 @@ public class SecondFragment extends Fragment {
 
     public Button button;
 
+
+
     private FragmentSecondBinding binding;
 
 
@@ -78,12 +80,16 @@ public class SecondFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (button.getText().equals("Question suivante")) {
-                    newQuestion();
+                    if (n < questionsList.size()) {
+                        newQuestion();
+                    }
+                    else {
+                        tv_result.setText("Vous avez fini ce parcours bravo ! J'espère qu'il vous aura plu. A bientôt l'ami !");
+                    }
                 }
                 else {
-                    Log.d("ici","compara");
+
                     if (editText.getText().toString().equals(questionsList.get(n).getAnswer())) {
-                        Log.d("ici","VRAI");
                         tv_result.setText("BRAVOO tu as trouvé");
                         button.setText("Question suivante");
                         n = n + 1;
@@ -91,13 +97,23 @@ public class SecondFragment extends Fragment {
                     }
 
                     else {
-                        Log.d("ici","FAUX");
+
                         Log.d("ici",editText.getText().toString());
                         Log.d("ici",questionsList.get(n).getAnswer());
 
                         tv_result.setText("FAUX essaie encore !");
                     }
                 }
+            }
+        });
+
+        binding.buttonHelp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                tv_result.setText("La bonne réponse était : "+questionsList.get(n).getAnswer());
+                button.setText("Question suivante");
+                n = n + 1;
+
             }
         });
     }
@@ -112,5 +128,7 @@ public class SecondFragment extends Fragment {
         tv_result.setText("");
         button.setText("Entrer");
     }
+
+
 
 }

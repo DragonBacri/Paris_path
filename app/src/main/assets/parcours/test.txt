@@ -2,6 +2,8 @@ No : Parcours Alesia
 Ds : Parcours simple
 G1 : 48.827921
 G2 : 2.326825
+A1 : 48.827168
+A2 : 2.314236
 tp : 45
 Q1 : Combien de rues traversent la place Alésia ? ANS : 6
 Q2 : 2 +2 ? ANS : 4

@@ -15,14 +15,17 @@ public class Parcours implements Serializable {
     private GeoPoint location;
     private int duration ;
 
+    private GeoPoint arrival;
+
     private List<Questions> questionsList;
 
-    public Parcours(String name, String description, GeoPoint location, int duration, List<Questions> questionsList) {
+    public Parcours(String name, String description, GeoPoint location, int duration, List<Questions> questionsList, GeoPoint arrival) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.duration = duration;
         this.questionsList = questionsList;
+        this.arrival = arrival;
     }
 
 
@@ -33,6 +36,10 @@ public class Parcours implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public GeoPoint getArrival() {
+        return arrival;
     }
 
     public GeoPoint getLocation() {
